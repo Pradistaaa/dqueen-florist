@@ -9,11 +9,13 @@
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@600;700&family=Jost:wght@400;500;600&display=swap" rel="stylesheet" />
   <script is:inline src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
 
-  <style>
-:root{--bg:#0d0c0b;--bg2:#171513;--gold:#c9a24b;--gold2:#ecd592;--ink:#f3eee4;--mut:#a89f8f;--line:#2f2a22}
+  <style is:global>
+:root{--bg:#0d0c0b;--bg2:#171513;--gold:#c9a24b;--gold2:#ecd592;--ink:#f3eee4;--mut:#a89f8f;--line:#2f2a22;--min:220px}
 *{box-sizing:border-box;margin:0;padding:0}
 body{background:var(--bg);color:var(--ink);font-family:"Jost",system-ui,sans-serif;min-height:100vh}
+body.lock{overflow:hidden}
 :focus-visible{outline:3px solid var(--gold2);outline-offset:3px}
+
 .bar{position:sticky;top:0;z-index:10;display:flex;align-items:center;gap:14px;flex-wrap:wrap;padding:10px clamp(12px,3vw,32px);background:rgba(13,12,11,.95);backdrop-filter:blur(8px);border-bottom:1px solid var(--line)}
 .back{color:var(--gold2);text-decoration:none;font-weight:600;padding:8px 14px;border:1.5px solid var(--gold);border-radius:999px}
 .back:hover{background:rgba(201,162,75,.14)}
@@ -24,14 +26,44 @@ body{background:var(--bg);color:var(--ink);font-family:"Jost",system-ui,sans-ser
 .tools button:hover{background:rgba(201,162,75,.14)}
 .wa{background:var(--gold);color:#16120a;text-decoration:none;font-weight:600;font-size:.9rem;padding:9px 16px;border-radius:999px}
 .wa:hover{background:var(--gold2)}
+
 .status{text-align:center;color:var(--mut);padding:48px 20px}
-.scroller{overflow-x:auto;padding:16px 12px 96px}
-.pages{--w:900px;width:max-content;min-width:100%;display:flex;flex-direction:column;align-items:center;gap:14px}
-.pg{width:var(--w);background:var(--bg2);border:1px solid var(--line);border-radius:6px;overflow:hidden}
+.hint{color:var(--mut);font-size:.92rem;padding:16px clamp(12px,3vw,32px) 0}
+
+.grid{max-width:1240px;margin:0 auto;display:grid;grid-template-columns:repeat(auto-fill,minmax(var(--min),1fr));gap:14px;padding:16px clamp(12px,3vw,32px) 110px}
+.pg{position:relative;display:block;width:100%;padding:0;background:var(--bg2);border:1px solid var(--line);border-radius:8px;overflow:hidden;cursor:pointer;color:inherit;transition:border-color .2s}
+.pg:hover{border-color:var(--gold)}
 .pg canvas{display:block;width:100%;height:100%}
+.pg .no{position:absolute;left:8px;bottom:8px;font-size:.78rem;font-weight:600;color:var(--gold2);background:rgba(13,12,11,.82);border:1px solid var(--line);padding:2px 10px;border-radius:999px}
+
+.lb{position:fixed;inset:0;z-index:50;display:none;flex-direction:column;background:rgba(8,7,6,.96)}
+.lb.open{display:flex}
+.lb-top{display:flex;align-items:center;gap:12px;padding:10px clamp(12px,3vw,24px);border-bottom:1px solid var(--line)}
+.lb-top .t{flex:1;font-family:"Cormorant Garamond",Georgia,serif;font-size:1.3rem}
+.lb-top .c{color:var(--mut);font-size:.9rem}
+.lb button{width:40px;height:40px;border-radius:50%;border:1.5px solid var(--gold);background:transparent;color:var(--gold2);font-size:1.3rem;cursor:pointer}
+.lb button:hover{background:rgba(201,162,75,.14)}
+.lb button:disabled{opacity:.3;cursor:default}
+.lb-main{flex:1;min-height:0;display:flex;align-items:center;justify-content:center;gap:10px;padding:12px}
+.lb-body{flex:1;min-width:0;height:100%;display:flex;align-items:center;justify-content:center;overflow:auto;color:var(--mut)}
+.lb-body canvas{display:block;max-width:100%;border:1px solid var(--line);border-radius:4px}
+.lb-wa{display:flex;justify-content:center;padding:10px 12px 16px}
+.lb-wa a{background:var(--gold);color:#16120a;text-decoration:none;font-weight:600;padding:11px 22px;border-radius:999px}
+.lb-wa a:hover{background:var(--gold2)}
+
 .float{position:fixed;right:16px;bottom:16px;z-index:20;background:var(--gold);color:#16120a;text-decoration:none;font-weight:600;padding:12px 20px;border-radius:999px;box-shadow:0 10px 26px rgba(0,0,0,.5)}
 .float:hover{background:var(--gold2)}
-@media (max-width:640px){.info{display:none}.wa{display:none}}
+.mark{position:fixed;left:14px;bottom:14px;z-index:20;font-size:.78rem;color:var(--gold2);background:rgba(13,12,11,.82);border:1px solid var(--line);padding:6px 12px;border-radius:999px;pointer-events:none}
+
+@media (max-width:640px){
+  .info{display:none}.wa{display:none}
+  .grid{gap:10px}
+  .lb-main{position:relative;padding:8px 4px}
+  .lb button{width:36px;height:36px}
+  #lbPrev,#lbNext{position:absolute;top:50%;transform:translateY(-50%);z-index:2;background:rgba(13,12,11,.75)}
+  #lbPrev{left:6px}
+  #lbNext{right:6px}
+}
 </style>
 </head>
 <body>
@@ -40,14 +72,31 @@ body{background:var(--bg);color:var(--ink);font-family:"Jost",system-ui,sans-ser
     <h1 id="judul">Katalog</h1>
     <div class="tools">
       <span id="info" class="info"></span>
-      <button id="kecil" type="button" aria-label="Perkecil">-</button>
-      <button id="besar" type="button" aria-label="Perbesar">+</button>
+      <button id="kecil" type="button" aria-label="Perkecil kotak halaman">-</button>
+      <button id="besar" type="button" aria-label="Perbesar kotak halaman">+</button>
       <a id="wa" class="wa" href="#" target="_blank" rel="noopener">Pesan produk</a>
     </div>
   </header>
 
   <p id="status" class="status">Memuat katalog...</p>
-  <div class="scroller"><div id="pages" class="pages"></div></div>
+  <p id="hint" class="hint" hidden>Klik halaman untuk melihat lebih besar. Pakai tombol + dan - untuk mengatur ukuran kotak.</p>
+  <div id="pages" class="grid"></div>
+
+  <div id="lb" class="lb" role="dialog" aria-modal="true" aria-label="Halaman katalog">
+    <div class="lb-top">
+      <span id="lbJudul" class="t"></span>
+      <span id="lbNo" class="c"></span>
+      <button id="lbTutup" type="button" aria-label="Tutup">&times;</button>
+    </div>
+    <div class="lb-main">
+      <button id="lbPrev" type="button" aria-label="Halaman sebelumnya">&lsaquo;</button>
+      <div id="lbBody" class="lb-body"></div>
+      <button id="lbNext" type="button" aria-label="Halaman berikutnya">&rsaquo;</button>
+    </div>
+    <div class="lb-wa"><a id="lbWa" href="#" target="_blank" rel="noopener">Tanya produk di halaman ini</a></div>
+  </div>
+
+  <span class="mark">Developed by Pradista</span>
 
   <a class="float" id="wa2" href="#" target="_blank" rel="noopener">Pesan lewat WhatsApp</a>
 
@@ -63,100 +112,180 @@ var katalog = {
   "standing-flowers": { nama: "Standing Flowers", file: "DQUEENFlorist-STANDING FLOWERS 26 Oktober 2026.pdf" },
 };
 
-    var slug = new URLSearchParams(location.search).get("f");
-    var item = katalog[slug];
-    var statusEl = document.getElementById("status");
-    var pagesEl = document.getElementById("pages");
-    var infoEl = document.getElementById("info");
+var slug = new URLSearchParams(location.search).get("f");
+var item = katalog[slug];
+var statusEl = document.getElementById("status");
+var pagesEl = document.getElementById("pages");
+var infoEl = document.getElementById("info");
+var hintEl = document.getElementById("hint");
 
-    if (!item) {
-      statusEl.textContent = "Katalog tidak ditemukan. Kembali ke beranda dan pilih katalog.";
-    } else {
-      document.title = item.nama + " – dQueen Florist";
-      document.getElementById("judul").textContent = item.nama;
-      var link = "https://wa.me/" + WA + "?text=" + encodeURIComponent("Halo dQueen Florist, saya mau pesan produk dari katalog " + item.nama + ".");
-      document.getElementById("wa").href = link;
-      document.getElementById("wa2").href = link;
-      start();
-    }
+if (!item) {
+  statusEl.textContent = "Katalog tidak ditemukan. Kembali ke beranda dan pilih katalog.";
+} else {
+  document.title = item.nama + " – dQueen Florist";
+  document.getElementById("judul").textContent = item.nama;
+  var link = "https://wa.me/" + WA + "?text=" + encodeURIComponent("Halo dQueen Florist, saya mau pesan produk dari katalog " + item.nama + ".");
+  document.getElementById("wa").href = link;
+  document.getElementById("wa2").href = link;
+  start();
+}
 
-    async function start() {
-      pdfjsLib.GlobalWorkerOptions.workerSrc = "https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js";
-      try {
-        var task = pdfjsLib.getDocument({ url: "/katalog/" + encodeURIComponent(item.file) });
-        task.onProgress = function (p) {
-          if (p.total) statusEl.textContent = "Memuat katalog " + Math.round((p.loaded / p.total) * 100) + "%";
-        };
-        var pdf = await task.promise;
-        var first = await pdf.getPage(1);
-        var vp1 = first.getViewport({ scale: 1 });
-        var zooms = [0.6, 0.8, 1, 1.25, 1.5, 2];
-        var zi = 2;
-        var lastW = window.innerWidth;
-        var io, cur;
+async function start() {
+  pdfjsLib.GlobalWorkerOptions.workerSrc = "https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js";
+  try {
+    var task = pdfjsLib.getDocument({ url: "/katalog/" + encodeURIComponent(item.file) });
+    task.onProgress = function (p) {
+      if (p.total) statusEl.textContent = "Memuat katalog " + Math.round((p.loaded / p.total) * 100) + "%";
+    };
+    var pdf = await task.promise;
+    var first = await pdf.getPage(1);
+    var vp1 = first.getViewport({ scale: 1 });
+    var dpr = Math.min(window.devicePixelRatio || 1, 2);
+    var desktop = window.innerWidth >= 640;
+    var thumbW = desktop ? 800 : 360;
 
-        function build() {
-          if (io) io.disconnect();
-          if (cur) cur.disconnect();
-          pagesEl.innerHTML = "";
-          var w = Math.min(1100, window.innerWidth - 24) * zooms[zi];
-          pagesEl.style.setProperty("--w", w + "px");
-          var dpr = Math.min(window.devicePixelRatio || 1, 2);
+    statusEl.style.display = "none";
+    hintEl.hidden = false;
+    infoEl.textContent = pdf.numPages + " halaman";
 
-          io = new IntersectionObserver(function (es) {
-            es.forEach(function (e) {
-              if (!e.isIntersecting) return;
-              io.unobserve(e.target);
-              draw(e.target);
-            });
-          }, { rootMargin: "800px 0px" });
-
-          cur = new IntersectionObserver(function (es) {
-            es.forEach(function (e) {
-              if (e.isIntersecting) infoEl.textContent = "Halaman " + e.target.dataset.n + " / " + pdf.numPages;
-            });
-          }, { rootMargin: "-50% 0px -50% 0px" });
-
-          async function draw(div) {
-            var page = await pdf.getPage(+div.dataset.n);
-            var viewport = page.getViewport({ scale: (w / vp1.width) * dpr });
-            var canvas = document.createElement("canvas");
-            canvas.width = viewport.width;
-            canvas.height = viewport.height;
-            await page.render({ canvasContext: canvas.getContext("2d"), viewport: viewport }).promise;
-            div.appendChild(canvas);
-            div.classList.add("ok");
-          }
-
-          for (var i = 1; i <= pdf.numPages; i++) {
-            var d = document.createElement("div");
-            d.className = "pg";
-            d.dataset.n = i;
-            d.style.aspectRatio = vp1.width + " / " + vp1.height;
-            pagesEl.appendChild(d);
-            io.observe(d);
-            cur.observe(d);
-          }
+    /* ===== Grid halaman ===== */
+    var io = new IntersectionObserver(function (es) {
+      es.forEach(function (e) {
+        var b = e.target;
+        if (e.isIntersecting) {
+          drawThumb(b);
+        } else {
+          var old = b.querySelector("canvas");
+          if (old) old.remove();
+          b.dataset.state = "";
         }
+      });
+    }, { rootMargin: "1200px 0px" });
 
-        statusEl.style.display = "none";
-        infoEl.textContent = "Halaman 1 / " + pdf.numPages;
-        build();
-
-        document.getElementById("besar").onclick = function () { if (zi < zooms.length - 1) { zi++; build(); } };
-        document.getElementById("kecil").onclick = function () { if (zi > 0) { zi--; build(); } };
-        var t;
-        window.addEventListener("resize", function () {
-          clearTimeout(t);
-          t = setTimeout(function () {
-            if (Math.abs(window.innerWidth - lastW) > 60) { lastW = window.innerWidth; build(); }
-          }, 300);
-        });
-      } catch (err) {
-        console.error(err);
-        statusEl.textContent = "Katalog gagal dimuat. Coba refresh halaman, atau hubungi kami lewat WhatsApp.";
-      }
+    async function drawThumb(btn) {
+      if (btn.dataset.state) return;
+      btn.dataset.state = "busy";
+      var page = await pdf.getPage(+btn.dataset.n);
+      var vp = page.getViewport({ scale: (thumbW / vp1.width) * dpr });
+      var canvas = document.createElement("canvas");
+      canvas.width = vp.width;
+      canvas.height = vp.height;
+      canvas.style.cssText = "display:block;width:100%;height:100%;object-fit:contain";
+      await page.render({ canvasContext: canvas.getContext("2d"), viewport: vp }).promise;
+      if (btn.dataset.state !== "busy") return;
+      btn.dataset.state = "ok";
+      btn.insertBefore(canvas, btn.firstChild);
     }
+
+    for (var i = 1; i <= pdf.numPages; i++) {
+      var b = document.createElement("button");
+      b.type = "button";
+      b.className = "pg";
+      b.dataset.n = i;
+      b.setAttribute("aria-label", "Buka halaman " + i);
+      b.style.aspectRatio = vp1.width + " / " + vp1.height;
+      b.innerHTML = '<span class="no">' + i + "</span>";
+      pagesEl.appendChild(b);
+      io.observe(b);
+    }
+
+    pagesEl.addEventListener("click", function (e) {
+      var b = e.target.closest(".pg");
+      if (b) openLb(+b.dataset.n);
+    });
+
+    /* ===== Ukuran kotak ===== */
+    var sizes = desktop ? [4, 3, 2, 1] : [120, 160, 220, 300, 420];
+    var si = desktop ? 2 : 0;
+    function applySize() {
+      if (desktop) pagesEl.style.gridTemplateColumns = "repeat(" + sizes[si] + ", 1fr)";
+      else document.documentElement.style.setProperty("--min", sizes[si] + "px");
+    }
+    document.getElementById("besar").onclick = function () { if (si < sizes.length - 1) { si++; applySize(); } };
+    document.getElementById("kecil").onclick = function () { if (si > 0) { si--; applySize(); } };
+    applySize();
+
+    /* ===== Pop-up halaman besar ===== */
+    var lb = document.getElementById("lb");
+    var lbBody = document.getElementById("lbBody");
+    var lbNo = document.getElementById("lbNo");
+    var prev = document.getElementById("lbPrev");
+    var next = document.getElementById("lbNext");
+    var cur = 1;
+    var token = 0;
+    document.getElementById("lbJudul").textContent = item.nama;
+
+    async function show(n) {
+      cur = n;
+      var my = ++token;
+      lbNo.textContent = "Halaman " + n + " / " + pdf.numPages;
+      prev.disabled = n <= 1;
+      next.disabled = n >= pdf.numPages;
+      document.getElementById("lbWa").href = "https://wa.me/" + WA + "?text=" +
+        encodeURIComponent("Halo dQueen Florist, saya mau tanya produk di katalog " + item.nama + " halaman " + n + ".");
+      lbBody.textContent = "Memuat halaman...";
+      var page = await pdf.getPage(n);
+      var base = page.getViewport({ scale: 1 });
+      var maxW = Math.min(window.innerWidth - (window.innerWidth < 640 ? 16 : 100), 1100);
+      var maxH = window.innerHeight - 190;
+      var s = Math.min(maxW / base.width, maxH / base.height);
+      var d = Math.min(window.devicePixelRatio || 1, 3);
+      var vp = page.getViewport({ scale: s * d });
+      var c = document.createElement("canvas");
+      c.width = vp.width;
+      c.height = vp.height;
+      c.style.width = vp.width / d + "px";
+      c.style.height = vp.height / d + "px";
+      await page.render({ canvasContext: c.getContext("2d"), viewport: vp }).promise;
+      if (my !== token) return;
+      lbBody.replaceChildren(c);
+    }
+
+    function openLb(n) {
+      lb.classList.add("open");
+      document.body.classList.add("lock");
+      document.getElementById("lbTutup").focus();
+      show(n);
+    }
+    function closeLb() {
+      token++;
+      lb.classList.remove("open");
+      document.body.classList.remove("lock");
+      lbBody.textContent = "";
+    }
+
+    prev.onclick = function () { if (cur > 1) show(cur - 1); };
+    next.onclick = function () { if (cur < pdf.numPages) show(cur + 1); };
+    document.getElementById("lbTutup").onclick = closeLb;
+    lb.addEventListener("click", function (e) { if (e.target === lb || e.target === lbBody) closeLb(); });
+    document.addEventListener("keydown", function (e) {
+      if (!lb.classList.contains("open")) return;
+      if (e.key === "Escape") closeLb();
+      else if (e.key === "ArrowLeft" && cur > 1) show(cur - 1);
+      else if (e.key === "ArrowRight" && cur < pdf.numPages) show(cur + 1);
+    });
+
+    var sx = null;
+    lbBody.addEventListener("touchstart", function (e) { sx = e.touches[0].clientX; }, { passive: true });
+    lbBody.addEventListener("touchend", function (e) {
+      if (sx === null) return;
+      var dx = e.changedTouches[0].clientX - sx;
+      sx = null;
+      if (Math.abs(dx) < 60) return;
+      if (dx < 0 && cur < pdf.numPages) show(cur + 1);
+      else if (dx > 0 && cur > 1) show(cur - 1);
+    }, { passive: true });
+
+    var t;
+    window.addEventListener("resize", function () {
+      clearTimeout(t);
+      t = setTimeout(function () { if (lb.classList.contains("open")) show(cur); }, 300);
+    });
+  } catch (err) {
+    console.error(err);
+    statusEl.textContent = "Katalog gagal dimuat. Coba refresh halaman, atau hubungi kami lewat WhatsApp.";
+  }
+}
   </script>
 </body>
 </html>
