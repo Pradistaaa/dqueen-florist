@@ -36,6 +36,14 @@ body.lock{overflow:hidden}
 .pg canvas{display:block;width:100%;height:100%}
 .pg .no{position:absolute;left:8px;bottom:8px;font-size:.78rem;font-weight:600;color:var(--gold2);background:rgba(13,12,11,.82);border:1px solid var(--line);padding:2px 10px;border-radius:999px}
 
+.pg[hidden]{display:none}
+.pager{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:4px clamp(12px,3vw,32px) 24px}
+.pager[hidden]{display:none}
+.pager span{color:var(--mut);font-size:.9rem;text-align:center}
+.pager button{border:1.5px solid var(--gold);background:transparent;color:var(--gold2);font:inherit;font-weight:600;padding:10px 16px;border-radius:999px;cursor:pointer}
+.pager button:hover{background:rgba(201,162,75,.14)}
+.pager button:disabled{opacity:.35;cursor:default}
+
 .lb{position:fixed;inset:0;z-index:50;display:none;flex-direction:column;background:rgba(8,7,6,.96)}
 .lb.open{display:flex}
 .lb-top{display:flex;align-items:center;gap:12px;padding:10px clamp(12px,3vw,24px);border-bottom:1px solid var(--line)}
@@ -57,7 +65,9 @@ body.lock{overflow:hidden}
 
 @media (max-width:640px){
   .info{display:none}.wa{display:none}
-  .grid{gap:10px}
+  .grid{gap:10px;padding-bottom:16px}
+  #kecil,#besar{display:none}
+  .pager{padding-bottom:110px}
   .lb-main{position:relative;padding:8px 4px}
   .lb button{width:36px;height:36px}
   #lbPrev,#lbNext{position:absolute;top:50%;transform:translateY(-50%);z-index:2;background:rgba(13,12,11,.75)}
@@ -81,6 +91,11 @@ body.lock{overflow:hidden}
   <p id="status" class="status">Memuat katalog...</p>
   <p id="hint" class="hint" hidden>Klik halaman untuk melihat lebih besar. Pakai tombol + dan - untuk mengatur ukuran kotak.</p>
   <div id="pages" class="grid"></div>
+  <nav id="pager" class="pager" aria-label="Pindah halaman katalog" hidden>
+    <button id="pgPrev" type="button">Sebelumnya</button>
+    <span id="pgLabel"></span>
+    <button id="pgNext" type="button">Berikutnya</button>
+  </nav>
 
   <div id="lb" class="lb" role="dialog" aria-modal="true" aria-label="Halaman katalog">
     <div class="lb-top">
@@ -189,17 +204,45 @@ async function start() {
       io.observe(b);
     }
 
+    /* ===== HP: 4 gambar (2x2) per halaman ===== */
+    var per = 4;
+    var groups = Math.ceil(pdf.numPages / per);
+    var pager = document.getElementById("pager");
+    var pgPrev = document.getElementById("pgPrev");
+    var pgNext = document.getElementById("pgNext");
+    var pgLabel = document.getElementById("pgLabel");
+    var group = 1;
+
+    function showGroup(g, noScroll) {
+      group = Math.max(1, Math.min(groups, g));
+      var from = (group - 1) * per;
+      var to = Math.min(pdf.numPages, group * per);
+      var kids = pagesEl.children;
+      for (var k = 0; k < kids.length; k++) kids[k].hidden = !(k >= from && k < to);
+      pgLabel.textContent = "Hal. " + (from + 1) + "-" + to + " dari " + pdf.numPages;
+      pgPrev.disabled = group <= 1;
+      pgNext.disabled = group >= groups;
+      if (!noScroll) window.scrollTo(0, 0);
+    }
+
+    if (!desktop) {
+      hintEl.textContent = "Ketuk halaman untuk melihat lebih besar. Pindah halaman pakai tombol di bawah.";
+      pager.hidden = false;
+      pgPrev.onclick = function () { showGroup(group - 1); };
+      pgNext.onclick = function () { showGroup(group + 1); };
+      showGroup(1, true);
+    }
+
     pagesEl.addEventListener("click", function (e) {
       var b = e.target.closest(".pg");
       if (b) openLb(+b.dataset.n);
     });
 
     /* ===== Ukuran kotak ===== */
-    var sizes = desktop ? [4, 3, 2, 1] : [120, 160, 220, 300, 420];
+    var sizes = desktop ? [4, 3, 2, 1] : [2];
     var si = desktop ? 2 : 0;
     function applySize() {
-      if (desktop) pagesEl.style.gridTemplateColumns = "repeat(" + sizes[si] + ", 1fr)";
-      else document.documentElement.style.setProperty("--min", sizes[si] + "px");
+      pagesEl.style.gridTemplateColumns = "repeat(" + sizes[si] + ", 1fr)";
     }
     document.getElementById("besar").onclick = function () { if (si < sizes.length - 1) { si++; applySize(); } };
     document.getElementById("kecil").onclick = function () { if (si > 0) { si--; applySize(); } };
@@ -251,6 +294,7 @@ async function start() {
       token++;
       lb.classList.remove("open");
       document.body.classList.remove("lock");
+      if (!desktop) showGroup(Math.ceil(cur / per), true);
       lbBody.textContent = "";
     }
 
