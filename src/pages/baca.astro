@@ -1,0 +1,162 @@
+<!doctype html>
+<html lang="id">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Katalog – dQueen Florist</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@600;700&family=Jost:wght@400;500;600&display=swap" rel="stylesheet" />
+  <script is:inline src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+
+  <style>
+:root{--bg:#0d0c0b;--bg2:#171513;--gold:#c9a24b;--gold2:#ecd592;--ink:#f3eee4;--mut:#a89f8f;--line:#2f2a22}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--bg);color:var(--ink);font-family:"Jost",system-ui,sans-serif;min-height:100vh}
+:focus-visible{outline:3px solid var(--gold2);outline-offset:3px}
+.bar{position:sticky;top:0;z-index:10;display:flex;align-items:center;gap:14px;flex-wrap:wrap;padding:10px clamp(12px,3vw,32px);background:rgba(13,12,11,.95);backdrop-filter:blur(8px);border-bottom:1px solid var(--line)}
+.back{color:var(--gold2);text-decoration:none;font-weight:600;padding:8px 14px;border:1.5px solid var(--gold);border-radius:999px}
+.back:hover{background:rgba(201,162,75,.14)}
+.bar h1{font-family:"Cormorant Garamond",Georgia,serif;font-size:1.6rem;flex:1;min-width:140px}
+.tools{display:flex;align-items:center;gap:8px}
+.info{color:var(--mut);font-size:.9rem;margin-right:6px}
+.tools button{width:36px;height:36px;border-radius:50%;border:1.5px solid var(--gold);background:transparent;color:var(--gold2);font-size:1.2rem;cursor:pointer}
+.tools button:hover{background:rgba(201,162,75,.14)}
+.wa{background:var(--gold);color:#16120a;text-decoration:none;font-weight:600;font-size:.9rem;padding:9px 16px;border-radius:999px}
+.wa:hover{background:var(--gold2)}
+.status{text-align:center;color:var(--mut);padding:48px 20px}
+.scroller{overflow-x:auto;padding:16px 12px 96px}
+.pages{--w:900px;width:max-content;min-width:100%;display:flex;flex-direction:column;align-items:center;gap:14px}
+.pg{width:var(--w);background:var(--bg2);border:1px solid var(--line);border-radius:6px;overflow:hidden}
+.pg canvas{display:block;width:100%;height:100%}
+.float{position:fixed;right:16px;bottom:16px;z-index:20;background:var(--gold);color:#16120a;text-decoration:none;font-weight:600;padding:12px 20px;border-radius:999px;box-shadow:0 10px 26px rgba(0,0,0,.5)}
+.float:hover{background:var(--gold2)}
+@media (max-width:640px){.info{display:none}.wa{display:none}}
+</style>
+</head>
+<body>
+  <header class="bar">
+    <a class="back" href="/#katalog">Kembali</a>
+    <h1 id="judul">Katalog</h1>
+    <div class="tools">
+      <span id="info" class="info"></span>
+      <button id="kecil" type="button" aria-label="Perkecil">-</button>
+      <button id="besar" type="button" aria-label="Perbesar">+</button>
+      <a id="wa" class="wa" href="#" target="_blank" rel="noopener">Pesan produk</a>
+    </div>
+  </header>
+
+  <p id="status" class="status">Memuat katalog...</p>
+  <div class="scroller"><div id="pages" class="pages"></div></div>
+
+  <a class="float" id="wa2" href="#" target="_blank" rel="noopener">Pesan lewat WhatsApp</a>
+
+  <script is:inline>
+var WA = "628161456508";
+var katalog = {
+  "pita-dekorasi": { nama: "Pita Dekorasi", file: "DQUEENFlorist - PITA DEKORASI 06 Oktober 2026.pdf" },
+  "bunga-box": { nama: "Bunga Box", file: "DQUEENFlorist-BUNGA BOX 051126.pdf" },
+  "pita-motor": { nama: "Pita Motor dan Mobil", file: "DQUEENFlorist-PITA MOTOR 02 Oktober 2026.pdf" },
+  "pita-peresmian": { nama: "Pita Peresmian", file: "DQUEENFlorist-PITA PERESMIAN update 23 Oktober 2026.pdf" },
+  "rupa-rupa": { nama: "Rupa-Rupa", file: "DQUEENFlorist-RUPA-RUPA 01 Oktober 2026.pdf" },
+  "simbolis": { nama: "Simbolis", file: "DQUEENFlorist-SIMBOLIS 10 April 2026.pdf" },
+  "standing-flowers": { nama: "Standing Flowers", file: "DQUEENFlorist-STANDING FLOWERS 26 Oktober 2026.pdf" },
+};
+
+    var slug = new URLSearchParams(location.search).get("f");
+    var item = katalog[slug];
+    var statusEl = document.getElementById("status");
+    var pagesEl = document.getElementById("pages");
+    var infoEl = document.getElementById("info");
+
+    if (!item) {
+      statusEl.textContent = "Katalog tidak ditemukan. Kembali ke beranda dan pilih katalog.";
+    } else {
+      document.title = item.nama + " – dQueen Florist";
+      document.getElementById("judul").textContent = item.nama;
+      var link = "https://wa.me/" + WA + "?text=" + encodeURIComponent("Halo dQueen Florist, saya mau pesan produk dari katalog " + item.nama + ".");
+      document.getElementById("wa").href = link;
+      document.getElementById("wa2").href = link;
+      start();
+    }
+
+    async function start() {
+      pdfjsLib.GlobalWorkerOptions.workerSrc = "https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js";
+      try {
+        var task = pdfjsLib.getDocument({ url: "/katalog/" + encodeURIComponent(item.file) });
+        task.onProgress = function (p) {
+          if (p.total) statusEl.textContent = "Memuat katalog " + Math.round((p.loaded / p.total) * 100) + "%";
+        };
+        var pdf = await task.promise;
+        var first = await pdf.getPage(1);
+        var vp1 = first.getViewport({ scale: 1 });
+        var zooms = [0.6, 0.8, 1, 1.25, 1.5, 2];
+        var zi = 2;
+        var lastW = window.innerWidth;
+        var io, cur;
+
+        function build() {
+          if (io) io.disconnect();
+          if (cur) cur.disconnect();
+          pagesEl.innerHTML = "";
+          var w = Math.min(1100, window.innerWidth - 24) * zooms[zi];
+          pagesEl.style.setProperty("--w", w + "px");
+          var dpr = Math.min(window.devicePixelRatio || 1, 2);
+
+          io = new IntersectionObserver(function (es) {
+            es.forEach(function (e) {
+              if (!e.isIntersecting) return;
+              io.unobserve(e.target);
+              draw(e.target);
+            });
+          }, { rootMargin: "800px 0px" });
+
+          cur = new IntersectionObserver(function (es) {
+            es.forEach(function (e) {
+              if (e.isIntersecting) infoEl.textContent = "Halaman " + e.target.dataset.n + " / " + pdf.numPages;
+            });
+          }, { rootMargin: "-50% 0px -50% 0px" });
+
+          async function draw(div) {
+            var page = await pdf.getPage(+div.dataset.n);
+            var viewport = page.getViewport({ scale: (w / vp1.width) * dpr });
+            var canvas = document.createElement("canvas");
+            canvas.width = viewport.width;
+            canvas.height = viewport.height;
+            await page.render({ canvasContext: canvas.getContext("2d"), viewport: viewport }).promise;
+            div.appendChild(canvas);
+            div.classList.add("ok");
+          }
+
+          for (var i = 1; i <= pdf.numPages; i++) {
+            var d = document.createElement("div");
+            d.className = "pg";
+            d.dataset.n = i;
+            d.style.aspectRatio = vp1.width + " / " + vp1.height;
+            pagesEl.appendChild(d);
+            io.observe(d);
+            cur.observe(d);
+          }
+        }
+
+        statusEl.style.display = "none";
+        infoEl.textContent = "Halaman 1 / " + pdf.numPages;
+        build();
+
+        document.getElementById("besar").onclick = function () { if (zi < zooms.length - 1) { zi++; build(); } };
+        document.getElementById("kecil").onclick = function () { if (zi > 0) { zi--; build(); } };
+        var t;
+        window.addEventListener("resize", function () {
+          clearTimeout(t);
+          t = setTimeout(function () {
+            if (Math.abs(window.innerWidth - lastW) > 60) { lastW = window.innerWidth; build(); }
+          }, 300);
+        });
+      } catch (err) {
+        console.error(err);
+        statusEl.textContent = "Katalog gagal dimuat. Coba refresh halaman, atau hubungi kami lewat WhatsApp.";
+      }
+    }
+  </script>
+</body>
+</html>

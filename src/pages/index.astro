@@ -1,16 +1,312 @@
 ---
----
+// ====== PENGATURAN ======
+const WA = "628161456508";
+const ALAMAT = "Roxy, Jl. Biak, Jl. Petojo Selatan XII No.25, RT.5/RW.11, Cideng, Kecamatan Gambir, Kota Jakarta Pusat, DKI Jakarta 10150";
+const SHOPEE = "https://s.shopee.co.id/5L2jRI8RFt";
+const SITUS = "https://dqueenflorist.creative.id/";
+const MAPS = "https://www.google.com/maps/search/?api=1&query=" + encodeURIComponent("dQueen Florist " + ALAMAT);
+const MAPS_EMBED = "https://maps.google.com/maps?q=" + encodeURIComponent("dQueen Florist " + ALAMAT) + "&output=embed";
+const wa = (t: string) => `https://wa.me/${WA}?text=${encodeURIComponent(t)}`;
 
-<html lang="en">
-	<head>
-		<meta charset="utf-8" />
-		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-		<link rel="icon" href="/favicon.ico" />
-		<meta name="viewport" content="width=device-width" />
-		<meta name="generator" content={Astro.generator} />
-		<title>Astro</title>
-	</head>
-	<body>
-		<h1>Astro</h1>
-	</body>
+const katalog = [
+  { slug: "pita-dekorasi", nama: "Pita Dekorasi", hal: 36, upd: "6 Okt 2026", harga: "Rp390.000 – Rp1.500.000",
+    desc: "Pita jumbo dari busa berbalut kain satin premium, tebal 2 cm. Cocok untuk dekorasi mobil, panggung, dan hadiah besar.",
+    file: "DQUEENFlorist - PITA DEKORASI 06 Oktober 2026.pdf" },
+  { slug: "bunga-box", nama: "Bunga Box", hal: 77, upd: "5 Nov 2026", harga: "Rp150.000",
+    desc: "Rangkaian bunga segar dalam box, tinggi sekitar 40–50 cm. Warna bisa custom, ada kartu ucapan gratis.",
+    file: "DQUEENFlorist-BUNGA BOX 051126.pdf" },
+  { slug: "pita-motor", nama: "Pita Motor dan Mobil", hal: 30, upd: "2 Okt 2026", harga: "Rp60.000 – Rp180.000",
+    desc: "Pita spon dan kulit imitasi untuk motor dan mobil baru. Gratis tali ikat, bisa tambah variasi emas atau silver.",
+    file: "DQUEENFlorist-PITA MOTOR 02 Oktober 2026.pdf" },
+  { slug: "pita-peresmian", nama: "Pita Peresmian", hal: 100, upd: "23 Okt 2026", harga: "Rp60.000 – Rp180.000",
+    desc: "Pompom dan jambul untuk gunting pita peresmian. Diameter 15–30 cm, tali satin 2 meter, bisa tambah pom-pom.",
+    file: "DQUEENFlorist-PITA PERESMIAN update 23 Oktober 2026.pdf" },
+  { slug: "rupa-rupa", nama: "Rupa-Rupa", hal: 35, upd: "1 Okt 2026", harga: "Rp50.000 / pcs",
+    desc: "Aneka perlengkapan acara, mulai dari hiasan tangan line dance sampai pernak-pernik lainnya. Bisa pesan satuan.",
+    file: "DQUEENFlorist-RUPA-RUPA 01 Oktober 2026.pdf" },
+  { slug: "simbolis", nama: "Simbolis", hal: 154, upd: "10 Apr 2026", harga: "Sesuai update terbaru",
+    desc: "Katalog terbesar kami: kunci simbolis, replika, dan logo tempel untuk serah terima. Harga mengikuti update saat order.",
+    file: "DQUEENFlorist-SIMBOLIS 10 April 2026.pdf" },
+  { slug: "standing-flowers", nama: "Standing Flowers", hal: 80, upd: "26 Okt 2026", harga: "Rp499.000",
+    desc: "Standing flowers dan standing balon lengkap dengan kaki besi. Warna bisa disesuaikan dengan logo perusahaan.",
+    file: "DQUEENFlorist-STANDING FLOWERS 26 Oktober 2026.pdf" },
+];
+
+const langkah = [
+  { t: "Pilih katalog", d: "Buka katalog yang sesuai dengan acara kamu dan lihat semua pilihan produknya." },
+  { t: "Screenshot produk", d: "Screenshot produk yang kamu mau, lengkap dengan harganya." },
+  { t: "Kirim lewat WhatsApp", d: "Kirim screenshot-nya ke kami bersama alamat lengkap dan tanggal acara." },
+];
+
+const alasan = [
+  { t: "Pilihan desain yang lengkap", d: "Tujuh katalog dengan lebih dari 500 halaman pilihan, dari bunga box, standing flowers, pita peresmian, sampai kunci simbolis." },
+  { t: "Warna sesuai keinginan kamu", d: "Hampir semua produk bisa custom warna, termasuk menyesuaikan dengan warna logo perusahaan atau acara kamu." },
+  { t: "Bahan pilihan", d: "Pita dari busa berbalut satin premium, bunga segar untuk bunga box, dan balon premium untuk standing balon." },
+  { t: "Proses cepat", d: "Kebanyakan pesanan selesai dalam 1 sampai 3 jam, tergantung produk dan antrean hari itu." },
+  { t: "Dipercaya pelanggan", d: "Rating 4,4 dari 50 ulasan di Google, dan toko kami bisa dikunjungi langsung di Jakarta Pusat." },
+];
+
+const faq = [
+  { q: "Bagaimana cara memesan?", a: "Buka katalog, screenshot produk yang kamu mau, lalu kirim ke WhatsApp kami bersama alamat lengkap dan tanggal acara." },
+  { q: "Apakah harga sudah termasuk ongkir?", a: "Belum. Ongkir dihitung terpisah, jadi kirimkan alamat lengkap supaya kami bisa menghitungnya." },
+  { q: "Berapa lama proses pembuatannya?", a: "Umumnya 1 sampai 3 jam, tergantung produk dan antrean hari itu. Untuk acara penting, pesan lebih awal supaya aman." },
+  { q: "Apakah warnanya bisa custom?", a: "Bisa untuk hampir semua produk. Kamu juga bisa minta kombinasi warna atau menyesuaikan dengan logo perusahaan. Detailnya tertera di tiap katalog." },
+  { q: "Apakah harga di katalog selalu sama?", a: "Harga dan produk mengikuti update terbaru saat kamu order, jadi konfirmasi dulu ke kami lewat WhatsApp sebelum membayar." },
+  { q: "Bagaimana kalau bunga yang dipilih sedang tidak tersedia?", a: "Untuk bunga segar tertentu seperti hortensia, kami bisa menggantinya dengan warna hijau atau hortensia artificial. Kalau ada permintaan khusus, sampaikan saat memesan." },
+  { q: "Bisakah memesan satuan?", a: "Bisa untuk beberapa produk, misalnya hiasan tangan line dance. Cek keterangannya di katalog Rupa-Rupa." },
+  { q: "Bisa datang langsung ke toko?", a: "Bisa. Kami ada di Cideng, Gambir, Jakarta Pusat. Kami buka pukul 07.30 sampai 18.00. Hubungi dulu lewat WhatsApp sebelum datang, terutama kalau mau mengambil pesanan." },
+];
+---
+<!doctype html>
+<html lang="id">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>dQueen Florist – Bunga, Pita, dan Dekorasi Mewah di Jakarta Pusat</title>
+  <meta name="description" content="dQueen Florist di Jakarta Pusat: bunga box, standing flowers, pita peresmian, pita motor, dan kunci simbolis. Pesan lewat WhatsApp 0816-1456-508." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=Jost:wght@400;500;600&display=swap" rel="stylesheet" />
+</head>
+<body>
+
+<header class="nav">
+  <a class="brand" href="#atas">dQueen <em>Florist</em></a>
+  <nav>
+    <a href="#katalog">Katalog</a>
+    <a href="#kenapa">Kenapa kami</a>
+    <a href="#pesan">Cara pesan</a>
+    <a href="#faq">FAQ</a>
+    <a href="#lokasi">Lokasi</a>
+  </nav>
+  <a class="pill" href={wa("Halo dQueen Florist, saya mau pesan.")} target="_blank" rel="noopener">Pesan sekarang</a>
+</header>
+
+<main id="atas">
+  <section class="hero">
+    <div class="hero-text">
+      <p class="rate"><b>4,4</b> dari 50 ulasan Google</p>
+      <h1>Rangkaian mewah untuk setiap momen penting</h1>
+      <p class="lead">Bunga box, standing flowers, pita peresmian, pita motor, dan kunci simbolis. Dibuat dengan tangan di Jakarta Pusat, dengan warna yang bisa kamu atur sendiri.</p>
+      <div class="hero-cta">
+        <a class="btn gold" href="#katalog">Lihat katalog</a>
+        <a class="btn ghost" href={wa("Halo dQueen Florist, saya mau pesan.")} target="_blank" rel="noopener">Chat WhatsApp</a>
+      </div>
+    </div>
+    <div class="stack" aria-hidden="true">
+      <img class="s1" src="/img/standing-flowers.jpg" alt="" />
+      <img class="s2" src="/img/bunga-box.jpg" alt="" />
+      <img class="s3" src="/img/pita-peresmian.jpg" alt="" />
+    </div>
+  </section>
+
+  <section class="facts">
+    <div><b>7</b><span>katalog produk</span></div>
+    <div><b>500+</b><span>halaman pilihan desain</span></div>
+    <div><b>Custom</b><span>warna sesuai permintaan</span></div>
+    <div><b>Jakarta Pusat</b><span>Gambir, dekat Roxy</span></div>
+  </section>
+
+  <section id="katalog" class="sec">
+    <h2>Katalog produk</h2>
+    <p class="sub">Buka katalog PDF-nya, lalu screenshot produk yang kamu suka. Harga di bawah hanya contoh, harga terbaru mengikuti katalog saat kamu order.</p>
+    <div class="grid">
+      {katalog.map((k) => (
+        <article class="card">
+          <a class="thumb" href={`/baca?f=${k.slug}`} aria-label={`Buka katalog ${k.nama}`}>
+            <img src={`/img/${k.slug}.jpg`} alt={`Sampul katalog ${k.nama}`} loading="lazy" />
+          </a>
+          <div class="body">
+            <h3>{k.nama}</h3>
+            <p>{k.desc}</p>
+            <p class="price"><span>Contoh harga</span> {k.harga}</p>
+            <p class="meta">{k.hal} halaman, diperbarui {k.upd}</p>
+            <div class="row">
+              <a class="btn gold sm" href={`/baca?f=${k.slug}`}>Buka katalog</a>
+              <a class="btn ghost sm" href={wa(`Halo dQueen Florist, saya mau tanya produk dari katalog ${k.nama}.`)} target="_blank" rel="noopener">Tanya produk</a>
+            </div>
+          </div>
+        </article>
+      ))}
+    </div>
+  </section>
+
+    <section id="kenapa" class="sec dark2">
+    <div class="why">
+      <div>
+        <h2>Kenapa harus pilih kami</h2>
+        <p class="sub">Dari rangkaian kecil sampai dekorasi besar, kami kerjakan dengan rapi dan sesuai permintaan.</p>
+      </div>
+      <ul class="why-list">
+        {alasan.map((a) => (
+          <li><h3>{a.t}</h3><p>{a.d}</p></li>
+        ))}
+      </ul>
+    </div>
+  </section>
+
+  <section id="pesan" class="sec">
+    <h2>Cara pesan</h2>
+    <ol class="steps">
+      {langkah.map((l, i) => (
+        <li><span class="n">{i + 1}</span><h3>{l.t}</h3><p>{l.d}</p></li>
+      ))}
+    </ol>
+    <ul class="notes">
+      <li>Harga belum termasuk ongkir. Kirim alamat lengkap supaya kami bisa hitung.</li>
+      <li>Proses pembuatan 1–3 jam tergantung produk dan antrean hari itu.</li>
+      <li>Hampir semua produk bisa custom warna, bahkan menyesuaikan warna logo perusahaan.</li>
+    </ul>
+  </section>
+
+    <section id="faq" class="sec dark2">
+    <h2>Pertanyaan yang sering diajukan</h2>
+    <div class="faq">
+      {faq.map((f) => (
+        <details>
+          <summary>{f.q}</summary>
+          <p>{f.a}</p>
+        </details>
+      ))}
+    </div>
+  </section>
+
+  <section id="lokasi" class="sec">
+    <h2>Kunjungi dan hubungi kami</h2>
+    <div class="loc">
+      <div class="info">
+        <h3>Alamat</h3>
+        <p>{ALAMAT}</p>
+        <h3>Telepon dan WhatsApp</h3>
+        <p><a href={`tel:+${WA}`}>0816-1456-508</a></p>
+        <h3>Jam buka</h3>
+        <p>Buka pukul 07.30 sampai 18.00. Untuk hari libur, cek Google Maps atau tanya lewat WhatsApp.</p>
+        <div class="row">
+          <a class="btn gold" href={MAPS} target="_blank" rel="noopener">Buka Google Maps</a>
+          <a class="btn ghost" href={SHOPEE} target="_blank" rel="noopener">Belanja di Shopee</a>
+        </div>
+      </div>
+      <iframe class="map" title="Lokasi dQueen Florist" src={MAPS_EMBED} loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <p class="brand">dQueen <em>Florist</em></p>
+  <p>Toko bunga di Jakarta Pusat. Harga dan produk mengikuti update terbaru saat order.</p>
+  <p><a href={wa("Halo dQueen Florist, saya mau pesan.")} target="_blank" rel="noopener">WhatsApp 0816-1456-508</a> | <a href={SITUS} target="_blank" rel="noopener">Situs resmi</a> | <a href={SHOPEE} target="_blank" rel="noopener">Shopee</a></p>
+</footer>
+
+<span class="mark">Developed by Pradista</span>
+
+<a class="float" href={wa("Halo dQueen Florist, saya mau pesan.")} target="_blank" rel="noopener" aria-label="Chat WhatsApp">Chat WA</a>
+
+</body>
 </html>
+
+<style is:global>
+:root{--bg:#0d0c0b;--bg2:#171513;--card:#1c1a17;--gold:#c9a24b;--gold2:#ecd592;--ink:#f3eee4;--mut:#a89f8f;--line:#2f2a22}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth;scroll-padding-top:72px}
+body{background:var(--bg);color:var(--ink);font-family:"Jost",system-ui,sans-serif;line-height:1.65}
+a{color:inherit}
+:focus-visible{outline:3px solid var(--gold2);outline-offset:3px}
+h1,h2,h3,.brand{font-family:"Cormorant Garamond",Georgia,serif;font-weight:600;line-height:1.1}
+.brand{font-size:1.6rem;text-decoration:none;letter-spacing:.01em}
+.brand em{color:var(--gold);font-style:italic}
+
+.nav{position:sticky;top:0;z-index:20;display:flex;align-items:center;justify-content:space-between;gap:16px;padding:14px clamp(18px,5vw,56px);background:rgba(13,12,11,.92);backdrop-filter:blur(8px);border-bottom:1px solid var(--line)}
+.nav nav{display:flex;gap:28px}
+.nav nav a{text-decoration:none;color:var(--mut);transition:color .2s}
+.nav nav a:hover{color:var(--gold2)}
+.pill{background:var(--gold);color:#16120a;text-decoration:none;font-weight:600;font-size:.92rem;padding:9px 20px;border-radius:999px}
+.pill:hover{background:var(--gold2)}
+
+.btn{display:inline-block;text-decoration:none;font-weight:600;padding:13px 26px;border-radius:999px;border:1.5px solid var(--gold);transition:background .2s,color .2s}
+.btn.gold{background:var(--gold);color:#16120a}
+.btn.gold:hover{background:var(--gold2);border-color:var(--gold2)}
+.btn.ghost{color:var(--gold2)}
+.btn.ghost:hover{background:rgba(201,162,75,.14)}
+.btn.sm{padding:9px 16px;font-size:.88rem}
+
+.hero{display:grid;grid-template-columns:1.1fr .9fr;gap:48px;align-items:center;max-width:1180px;margin:0 auto;padding:72px clamp(18px,5vw,56px) 56px}
+.rate{color:var(--gold2);margin-bottom:18px}
+.rate b{font-family:"Cormorant Garamond",serif;font-size:1.6rem;margin-right:6px}
+.hero h1{font-size:clamp(2.6rem,6.2vw,4.9rem);letter-spacing:-.01em;margin-bottom:22px}
+.lead{max-width:50ch;color:var(--mut);font-size:1.1rem}
+.hero-cta{display:flex;flex-wrap:wrap;gap:12px;margin-top:30px}
+.stack{position:relative;height:440px}
+.stack img{position:absolute;width:68%;border-radius:10px;border:1px solid var(--gold);box-shadow:0 18px 40px rgba(0,0,0,.55)}
+.s1{top:0;left:0;transform:rotate(-4deg)}
+.s2{top:130px;right:0;transform:rotate(3deg)}
+.s3{bottom:0;left:12%;transform:rotate(-1.5deg)}
+
+.facts{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--line);border-block:1px solid var(--line);margin-top:24px}
+.facts div{background:var(--bg2);padding:28px 20px;text-align:center}
+.facts b{display:block;font-family:"Cormorant Garamond",serif;font-size:1.9rem;color:var(--gold2)}
+.facts span{color:var(--mut);font-size:.92rem}
+
+.sec{max-width:1180px;margin:0 auto;padding:88px clamp(18px,5vw,56px)}
+.sec.dark2{max-width:none;background:var(--bg2);border-block:1px solid var(--line)}
+.sec.dark2>*{max-width:1068px;margin-inline:auto}
+.sec h2{font-size:clamp(2rem,4.5vw,3.2rem);margin-bottom:12px}
+.sub{max-width:62ch;color:var(--mut);margin-bottom:40px}
+
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(310px,1fr));gap:24px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:14px;overflow:hidden;display:flex;flex-direction:column;transition:border-color .25s}
+.card:hover{border-color:var(--gold)}
+.thumb{display:block;aspect-ratio:16/9;overflow:hidden;background:#000}
+.thumb img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .5s}
+.card:hover .thumb img{transform:scale(1.04)}
+.body{padding:22px;display:flex;flex-direction:column;gap:10px;flex:1}
+.body h3{font-size:1.6rem}
+.body p{color:var(--mut);font-size:.96rem}
+.body .price{color:var(--ink);font-weight:500}
+.body .price span{color:var(--gold);font-weight:400;margin-right:6px}
+.body .meta{font-size:.85rem;flex:1}
+.row{display:flex;flex-wrap:wrap;gap:10px;margin-top:6px}
+
+.steps{list-style:none;display:grid;grid-template-columns:repeat(3,1fr);gap:28px;margin-top:36px}
+.steps li{border-top:2px solid var(--gold);padding-top:18px}
+.steps .n{font-family:"Cormorant Garamond",serif;font-size:2.8rem;color:var(--gold);line-height:1}
+.steps h3{font-size:1.5rem;margin:6px 0}
+.steps p{color:var(--mut)}
+.notes{margin-top:44px;padding-left:20px;color:var(--mut);display:grid;gap:6px}
+.notes li::marker{color:var(--gold)}
+
+.loc{display:grid;grid-template-columns:1fr 1.1fr;gap:36px;margin-top:32px;align-items:stretch}
+.info h3{font-size:1.35rem;color:var(--gold2);margin:18px 0 4px}
+.info h3:first-child{margin-top:0}
+.info p{color:var(--mut);max-width:44ch}
+.info a{color:var(--ink)}
+.info .row{margin-top:26px}
+.map{width:100%;min-height:380px;border:1px solid var(--gold);border-radius:14px;filter:grayscale(.3) contrast(1.05)}
+
+.why{display:grid;grid-template-columns:.8fr 1.2fr;gap:56px;align-items:start}
+.why-list{list-style:none;display:grid;gap:26px}
+.why-list li{border-left:2px solid var(--gold);padding-left:20px}
+.why-list h3{font-size:1.5rem;margin-bottom:4px}
+.why-list p{color:var(--mut);max-width:56ch}
+.faq details{border-bottom:1px solid var(--line);padding:18px 0}
+.faq summary{cursor:pointer;list-style:none;display:flex;justify-content:space-between;gap:16px;font-family:"Cormorant Garamond",Georgia,serif;font-size:1.4rem;line-height:1.25}
+.faq summary::-webkit-details-marker{display:none}
+.faq summary::after{content:"+";color:var(--gold);font-size:1.7rem;line-height:1}
+.faq details[open] summary::after{content:"-"}
+.faq details p{color:var(--mut);margin-top:10px;max-width:64ch}
+.mark{position:fixed;left:14px;bottom:14px;z-index:30;font-size:.78rem;color:var(--gold2);background:rgba(13,12,11,.82);border:1px solid var(--line);padding:6px 12px;border-radius:999px;pointer-events:none}
+footer{text-align:center;padding:56px 24px 96px;border-top:1px solid var(--line);color:var(--mut);display:grid;gap:8px}
+footer a{color:var(--gold2)}
+.float{position:fixed;right:18px;bottom:18px;z-index:30;background:var(--gold);color:#16120a;text-decoration:none;font-weight:600;padding:13px 20px;border-radius:999px;box-shadow:0 10px 26px rgba(0,0,0,.5)}
+.float:hover{background:var(--gold2)}
+
+@media (max-width:860px){
+  .nav nav{display:none}
+  .hero{grid-template-columns:1fr;padding-top:44px}
+  .stack{height:340px}
+  .facts{grid-template-columns:repeat(2,1fr)}
+  .steps,.loc,.why{grid-template-columns:1fr}
+  .why{gap:28px}
+  .sec{padding-block:64px}
+}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}*{transition:none!important}}
+</style>
