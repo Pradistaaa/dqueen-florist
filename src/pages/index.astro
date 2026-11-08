@@ -5,12 +5,33 @@ const ALAMAT = "Roxy, Jl. Biak, Jl. Petojo Selatan XII No.25, RT.5/RW.11, Cideng
 const SHOPEE = "https://shopee.co.id/shop/133528093";
 const TIKTOK = "https://www.tiktok.com/@dqueenflorist_19";
 const INSTAGRAM = "https://www.instagram.com/dqueenflorist_19";
-const SITUS = "https://dqueenflorist.creative.id/";
+const SITUS = "https://www.dqueen-florist.com";
 const MAPS = "https://www.google.com/maps/search/?api=1&query=" + encodeURIComponent("dQueen Florist " + ALAMAT);
 const MAPS_EMBED = "https://maps.google.com/maps?q=" + encodeURIComponent("dQueen Florist " + ALAMAT) + "&output=embed";
 const WA2 = "62816991971"; // nomor alternatif (0816-991-971)
 const wa = (t: string) => `https://wa.me/${WA}?text=${encodeURIComponent(t)}`;
 const wa2 = (t: string) => `https://wa.me/${WA2}?text=${encodeURIComponent(t)}`;
+
+// Data bisnis untuk Google (JSON-LD)
+const jsonLd = {
+  "@context": "https://schema.org",
+  "@type": "Florist",
+  name: "dQueen Florist",
+  url: SITUS + "/",
+  image: SITUS + "/og-image.jpg",
+  logo: SITUS + "/icon-512.png",
+  telephone: "+" + WA,
+  description: "Toko bunga di Jakarta Pusat: bunga box, standing flowers, pita peresmian, pita motor, dan pita dekorasi.",
+  address: {
+    "@type": "PostalAddress",
+    streetAddress: "Jl. Petojo Selatan XII No.25, RT.5/RW.11, Cideng",
+    addressLocality: "Kecamatan Gambir, Kota Jakarta Pusat",
+    addressRegion: "DKI Jakarta",
+    postalCode: "10150",
+    addressCountry: "ID",
+  },
+  sameAs: [INSTAGRAM, TIKTOK, SHOPEE],
+};
 
 const katalog = [
   { slug: "pita-dekorasi", nama: "Pita Dekorasi", hal: 36, upd: "6 Okt 2026", harga: "Rp390.000 – Rp1.500.000",
@@ -77,6 +98,18 @@ const faq = [
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>dQueen Florist – Bunga, Pita, dan Dekorasi Mewah di Jakarta Pusat</title>
   <meta name="description" content="dQueen Florist di Jakarta Pusat: bunga box, standing flowers, pita peresmian, pita motor, dan pita dekorasi. Pesan lewat WhatsApp 0816-1456-508." />
+  <link rel="canonical" href={SITUS + "/"} />
+  <meta property="og:type" content="website" />
+  <meta property="og:site_name" content="dQueen Florist" />
+  <meta property="og:locale" content="id_ID" />
+  <meta property="og:url" content={SITUS + "/"} />
+  <meta property="og:title" content="dQueen Florist – Bunga, Pita, dan Dekorasi Mewah di Jakarta Pusat" />
+  <meta property="og:description" content="Bunga box, standing flowers, pita peresmian, pita motor, dan pita dekorasi. Pesan lewat WhatsApp." />
+  <meta property="og:image" content={SITUS + "/og-image.jpg"} />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="628" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />
   <link rel="icon" href="/favicon.ico" sizes="48x48" />
   <link rel="icon" type="image/png" sizes="48x48" href="/icon-48.png" />
   <link rel="icon" type="image/png" sizes="192x192" href="/icon-192.png" />
@@ -242,7 +275,7 @@ const faq = [
 <footer>
   <p class="brand">dQueen <em>Florist</em></p>
   <p>Toko bunga di Jakarta Pusat. Harga dan produk mengikuti update terbaru saat order.</p>
-  <p><a href={wa("Halo dQueen Florist, saya mau pesan.")} target="_blank" rel="noopener">WhatsApp 0816-1456-508</a> | <a href={wa2("Halo dQueen Florist, saya mau pesan.")} target="_blank" rel="noopener">WhatsApp alternatif 0816-991-971</a> | <a href={SITUS} target="_blank" rel="noopener">Situs resmi</a> | <a href={SHOPEE} target="_blank" rel="noopener">Shopee</a></p>
+  <p><a href={wa("Halo dQueen Florist, saya mau pesan.")} target="_blank" rel="noopener">WhatsApp 0816-1456-508</a> | <a href={wa2("Halo dQueen Florist, saya mau pesan.")} target="_blank" rel="noopener">WhatsApp alternatif 0816-991-971</a> | <a href={SHOPEE} target="_blank" rel="noopener">Shopee</a></p>
   <p><a href={INSTAGRAM} target="_blank" rel="noopener">Instagram @dqueenflorist_19</a> | <a href={TIKTOK} target="_blank" rel="noopener">TikTok @dqueenflorist_19</a></p>
 </footer>
 
