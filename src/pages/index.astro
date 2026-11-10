@@ -1,6 +1,8 @@
 ---
+import { WA, WA2, katalog, totalHalBulat, jumlahKatalog } from "../data/katalog";
+import { terlarisHarian } from "../data/terlaris";
+
 // ====== PENGATURAN ======
-const WA = "628161456508";
 const ALAMAT = "Roxy, Jl. Biak, Jl. Petojo Selatan XII No.25, RT.5/RW.11, Cideng, Kecamatan Gambir, Kota Jakarta Pusat, DKI Jakarta 10150";
 const SHOPEE = "https://shopee.co.id/shop/133528093";
 const TIKTOK = "https://www.tiktok.com/@dqueenflorist_19";
@@ -8,7 +10,6 @@ const INSTAGRAM = "https://www.instagram.com/dqueenflorist_19";
 const SITUS = "https://www.dqueen-florist.com";
 const MAPS = "https://www.google.com/maps/search/?api=1&query=" + encodeURIComponent("dQueen Florist " + ALAMAT);
 const MAPS_EMBED = "https://maps.google.com/maps?q=" + encodeURIComponent("dQueen Florist " + ALAMAT) + "&output=embed";
-const WA2 = "62816991971"; // nomor alternatif (0816-991-971)
 const wa = (t: string) => `https://wa.me/${WA}?text=${encodeURIComponent(t)}`;
 const wa2 = (t: string) => `https://wa.me/${WA2}?text=${encodeURIComponent(t)}`;
 
@@ -21,7 +22,7 @@ const jsonLd = {
   image: SITUS + "/og-image.jpg",
   logo: SITUS + "/icon-512.png",
   telephone: "+" + WA,
-  description: "Toko bunga di Jakarta Pusat: bunga box, standing flowers, pita peresmian, pita motor, dan pita dekorasi.",
+  description: "Toko bunga di Jakarta Pusat: bunga box, buket bunga, bunga papan, pita peresmian, dan pita dekorasi.",
   address: {
     "@type": "PostalAddress",
     streetAddress: "Jl. Petojo Selatan XII No.25, RT.5/RW.11, Cideng",
@@ -33,39 +34,6 @@ const jsonLd = {
   sameAs: [INSTAGRAM, TIKTOK, SHOPEE],
 };
 
-const katalog = [
-  { slug: "pita-dekorasi", nama: "Pita Dekorasi", hal: 36, upd: "6 Okt 2026", harga: "Rp390.000 – Rp1.500.000",
-    desc: "Pita jumbo dari busa berbalut kain satin premium, tebal 2 cm. Cocok untuk dekorasi mobil, panggung, dan hadiah besar.",
-    file: "DQUEENFlorist - PITA DEKORASI 06 Oktober 2026.pdf" },
-  { slug: "bunga-box", nama: "Bunga Box", hal: 77, upd: "5 Nov 2026", harga: "Rp150.000",
-    desc: "Rangkaian bunga segar dalam box, tinggi sekitar 40–50 cm. Warna bisa custom, ada kartu ucapan gratis.",
-    file: "DQUEENFlorist-BUNGA BOX 051126.pdf" },
-  { slug: "pita-motor", nama: "Pita Motor dan Mobil", hal: 30, upd: "2 Okt 2026", harga: "Rp60.000 – Rp180.000",
-    desc: "Pita spon dan kulit imitasi untuk motor dan mobil baru. Gratis tali ikat, bisa tambah variasi emas atau silver.",
-    file: "DQUEENFlorist-PITA MOTOR 02 Oktober 2026.pdf" },
-  { slug: "pita-peresmian", nama: "Pita Peresmian", hal: 100, upd: "23 Okt 2026", harga: "Rp60.000 – Rp180.000",
-    desc: "Pompom dan jambul untuk gunting pita peresmian. Diameter 15–30 cm, tali satin 2 meter, bisa tambah pom-pom.",
-    file: "DQUEENFlorist-PITA PERESMIAN update 23 Oktober 2026.pdf" },
-  { slug: "rupa-rupa", nama: "Rupa-Rupa", hal: 35, upd: "1 Okt 2026", harga: "Rp50.000 / pcs",
-    desc: "Aneka perlengkapan acara, mulai dari hiasan tangan line dance sampai pernak-pernik lainnya. Bisa pesan satuan.",
-    file: "DQUEENFlorist-RUPA-RUPA 01 Oktober 2026.pdf" },
-  { slug: "standing-flowers", nama: "Standing Flowers", hal: 80, upd: "26 Okt 2026", harga: "Rp499.000",
-    desc: "Standing flowers dan standing balon lengkap dengan kaki besi. Warna bisa disesuaikan dengan logo perusahaan.",
-    file: "DQUEENFlorist-STANDING FLOWERS 26 Oktober 2026.pdf" },
-];
-
-// ====== PRODUK TERLARIS ======
-// Satu produk per katalog. Nanti tinggal ganti "foto" dengan foto produk aslinya
-// (taruh di public/img/terlaris/) dan "nama" dengan nama produknya.
-const terlaris = [
-  { nama: "Bunga Box", katalog: "Bunga Box", slug: "bunga-box", foto: "/img/bunga-box.jpg", harga: "Rp150.000" },
-  { nama: "Standing Flowers", katalog: "Standing Flowers", slug: "standing-flowers", foto: "/img/standing-flowers.jpg", harga: "Rp499.000" },
-  { nama: "Pita Peresmian", katalog: "Pita Peresmian", slug: "pita-peresmian", foto: "/img/pita-peresmian.jpg", harga: "Rp60.000 – Rp180.000" },
-  { nama: "Pita Dekorasi", katalog: "Pita Dekorasi", slug: "pita-dekorasi", foto: "/img/pita-dekorasi.jpg", harga: "Rp390.000 – Rp1.500.000" },
-  { nama: "Pita Motor dan Mobil", katalog: "Pita Motor dan Mobil", slug: "pita-motor", foto: "/img/pita-motor.jpg", harga: "Rp60.000 – Rp180.000" },
-  { nama: "Rupa-Rupa", katalog: "Rupa-Rupa", slug: "rupa-rupa", foto: "/img/rupa-rupa.jpg", harga: "Rp50.000 / pcs" },
-];
-
 const langkah = [
   { t: "Pilih katalog", d: "Buka katalog yang sesuai dengan acara kamu dan lihat semua pilihan produknya." },
   { t: "Screenshot produk", d: "Screenshot produk yang kamu mau, lengkap dengan harganya." },
@@ -73,7 +41,7 @@ const langkah = [
 ];
 
 const alasan = [
-  { t: "Pilihan desain yang lengkap", d: "Enam katalog dengan lebih dari 350 halaman pilihan, dari bunga box, standing flowers, sampai pita peresmian." },
+  { t: "Pilihan desain yang lengkap", d: `${jumlahKatalog} katalog dengan lebih dari ${totalHalBulat} halaman pilihan, dari bunga box, buket, bunga papan, sampai pita peresmian.` },
   { t: "Warna sesuai keinginan kamu", d: "Hampir semua produk bisa custom warna, termasuk menyesuaikan dengan warna logo perusahaan atau acara kamu." },
   { t: "Bahan pilihan", d: "Pita dari busa berbalut satin premium, bunga segar untuk bunga box, dan balon premium untuk standing balon." },
   { t: "Proses cepat", d: "Kebanyakan pesanan selesai dalam 1 sampai 3 jam, tergantung produk dan antrean hari itu." },
@@ -87,7 +55,7 @@ const faq = [
   { q: "Apakah warnanya bisa custom?", a: "Bisa untuk hampir semua produk. Kamu juga bisa minta kombinasi warna atau menyesuaikan dengan logo perusahaan. Detailnya tertera di tiap katalog." },
   { q: "Apakah harga di katalog selalu sama?", a: "Harga dan produk mengikuti update terbaru saat kamu order, jadi konfirmasi dulu ke kami lewat WhatsApp sebelum membayar." },
   { q: "Bagaimana kalau bunga yang dipilih sedang tidak tersedia?", a: "Untuk bunga segar tertentu seperti hortensia, kami bisa menggantinya dengan warna hijau atau hortensia artificial. Kalau ada permintaan khusus, sampaikan saat memesan." },
-  { q: "Bisakah memesan satuan?", a: "Bisa untuk beberapa produk, misalnya hiasan tangan line dance. Cek keterangannya di katalog Rupa-Rupa." },
+  { q: "Bisakah memesan satuan?", a: "Bisa untuk beberapa produk, misalnya pita hias saja atau pompom satuan. Cek keterangannya di katalog Pita Peresmian." },
   { q: "Bisa datang langsung ke toko?", a: "Bisa. Kami ada di Cideng, Gambir, Jakarta Pusat. Kami buka pukul 07.30 sampai 18.00. Hubungi dulu lewat WhatsApp sebelum datang, terutama kalau mau mengambil pesanan." },
 ];
 ---
@@ -97,14 +65,14 @@ const faq = [
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>dQueen Florist – Bunga, Pita, dan Dekorasi Mewah di Jakarta Pusat</title>
-  <meta name="description" content="dQueen Florist di Jakarta Pusat: bunga box, standing flowers, pita peresmian, pita motor, dan pita dekorasi. Pesan lewat WhatsApp 0816-1456-508." />
+  <meta name="description" content="dQueen Florist di Jakarta Pusat: bunga box, buket bunga, bunga papan, pita peresmian, dan pita dekorasi. Pesan lewat WhatsApp 0816-1456-508." />
   <link rel="canonical" href={SITUS + "/"} />
   <meta property="og:type" content="website" />
   <meta property="og:site_name" content="dQueen Florist" />
   <meta property="og:locale" content="id_ID" />
   <meta property="og:url" content={SITUS + "/"} />
   <meta property="og:title" content="dQueen Florist – Bunga, Pita, dan Dekorasi Mewah di Jakarta Pusat" />
-  <meta property="og:description" content="Bunga box, standing flowers, pita peresmian, pita motor, dan pita dekorasi. Pesan lewat WhatsApp." />
+  <meta property="og:description" content="Bunga box, buket bunga, bunga papan, pita peresmian, dan pita dekorasi. Pesan lewat WhatsApp." />
   <meta property="og:image" content={SITUS + "/og-image.jpg"} />
   <meta property="og:image:width" content="1200" />
   <meta property="og:image:height" content="628" />
@@ -123,8 +91,8 @@ const faq = [
 <header class="nav">
   <a class="brand" href="#atas">dQueen <em>Florist</em></a>
   <nav>
-    <a href="#terlaris">Terlaris</a>
     <a href="#katalog">Katalog</a>
+    <a href="#terlaris">Terlaris</a>
     <a href="#kenapa">Kenapa kami</a>
     <a href="#pesan">Cara pesan</a>
     <a href="#faq">FAQ</a>
@@ -138,50 +106,29 @@ const faq = [
     <div class="hero-text">
       <p class="rate"><b>4,4</b> dari 50 ulasan Google</p>
       <h1>Rangkaian mewah untuk setiap momen penting</h1>
-      <p class="lead">Bunga box, standing flowers, pita peresmian, pita motor, dan pita dekorasi. Dibuat dengan tangan di Jakarta Pusat, dengan warna yang bisa kamu atur sendiri.</p>
+      <p class="lead">Bunga box, buket bunga, bunga papan, pita peresmian, dan pita dekorasi. Dibuat dengan tangan di Jakarta Pusat, dengan warna yang bisa kamu atur sendiri.</p>
       <div class="hero-cta">
         <a class="btn gold" href="#katalog">Lihat katalog</a>
         <a class="btn ghost" href={wa("Halo dQueen Florist, saya mau pesan.")} target="_blank" rel="noopener">Chat WhatsApp</a>
       </div>
     </div>
     <div class="stack" aria-hidden="true">
-      <img class="s1" src="/img/standing-flowers.jpg" alt="" />
+      <img class="s1" src="/img/paket-peresmian.jpg" alt="" />
       <img class="s2" src="/img/bunga-box.jpg" alt="" />
       <img class="s3" src="/img/pita-peresmian.jpg" alt="" />
     </div>
   </section>
 
   <section class="facts">
-    <div><b>6</b><span>katalog produk</span></div>
-    <div><b>350+</b><span>halaman pilihan desain</span></div>
+    <div><b>{jumlahKatalog}</b><span>katalog produk</span></div>
+    <div><b>{totalHalBulat}+</b><span>halaman pilihan desain</span></div>
     <div><b>Custom</b><span>warna sesuai permintaan</span></div>
     <div><b>Jakarta Pusat</b><span>Gambir, dekat Roxy</span></div>
   </section>
 
-  <section id="terlaris" class="sec">
-    <p class="eyebrow">Favorit pelanggan</p>
-    <h2>Paling banyak dicari di dQueen Florist</h2>
-    <p class="sub">Pilihan yang paling sering dipesan untuk wisuda, ulang tahun, peresmian, dan hari besar lainnya. Sekali pilih, langsung pesan lewat WhatsApp.</p>
-    <div class="best-grid">
-      {terlaris.map((p) => (
-        <article class="best">
-          <a class="best-img" href={`/baca?f=${p.slug}`} aria-label={`Lihat katalog ${p.katalog}`}>
-            <img src={p.foto} alt={p.nama} loading="lazy" />
-            <span class="tag">Terlaris</span>
-          </a>
-          <div class="best-body">
-            <h3>{p.nama}</h3>
-            <p class="best-price">{p.harga}</p>
-            <a class="btn gold sm" href={wa(`Halo dQueen Florist, saya mau pesan ${p.nama}.`)} target="_blank" rel="noopener">Pesan sekarang</a>
-          </div>
-        </article>
-      ))}
-    </div>
-  </section>
-
   <section id="katalog" class="sec">
-    <h2>Katalog produk</h2>
-    <p class="sub">Buka katalog PDF-nya, lalu screenshot produk yang kamu suka. Harga di bawah hanya contoh, harga terbaru mengikuti katalog saat kamu order.</p>
+    <h2>Produk Popular Minggu Ini</h2>
+    <p class="sub">Buka katalog PDF-nya, lalu screenshot produk yang kamu suka. Harga di bawah adalah harga mulai dari, harga terbaru mengikuti katalog saat kamu order.</p>
     <div class="grid">
       {katalog.map((k) => (
         <article class="card">
@@ -191,11 +138,43 @@ const faq = [
           <div class="body">
             <h3>{k.nama}</h3>
             <p>{k.desc}</p>
-            <p class="price"><span>Contoh harga</span> {k.harga}</p>
-            <p class="meta">{k.hal} halaman, diperbarui {k.upd}</p>
+            <p class="price"><span>Harga</span> {k.harga}</p>
+            <p class="meta">{k.hal > 0 ? `${k.hal} halaman, ` : ""}diperbarui {k.upd}</p>
             <div class="row">
               <a class="btn gold sm" href={`/baca?f=${k.slug}`}>Buka katalog</a>
               <a class="btn ghost sm" href={wa(`Halo dQueen Florist, saya mau tanya produk dari katalog ${k.nama}.`)} target="_blank" rel="noopener">Tanya produk</a>
+            </div>
+          </div>
+        </article>
+      ))}
+    </div>
+  </section>
+
+  <section id="terlaris" class="sec">
+    <p class="eyebrow">Favorit pelanggan</p>
+    <h2>Produk Terlaris Setiap Hari</h2>
+    <p class="sub">Pilihan yang paling sering dipesan untuk peresmian, ulang tahun, dan hari besar lainnya. Sekali pilih, langsung pesan lewat WhatsApp.</p>
+    <div class="best-grid">
+      {terlarisHarian.map((p) => (
+        <article class="best">
+          {p.file ? (
+            <a class="best-img" href={`/baca?f=${p.slug}`} aria-label={`Lihat katalog ${p.nama}`}>
+              <img src={`/img/terlaris/${p.slug}.jpg`} alt={p.nama} loading="lazy" />
+              <span class="tag">Terlaris</span>
+            </a>
+          ) : (
+            <div class="best-img">
+              <img src={`/img/terlaris/${p.slug}.jpg`} alt={p.nama} loading="lazy" />
+              <span class="tag">Terlaris</span>
+            </div>
+          )}
+          <div class="best-body">
+            <h3>{p.nama}</h3>
+            {p.harga && <p class="best-price">{p.harga}</p>}
+            {(p.hal > 0 || p.upd) && <p class="best-meta">{p.hal > 0 ? `${p.hal} halaman, ` : ""}diperbarui {p.upd}</p>}
+            <div class="row">
+              {p.file && <a class="btn gold sm" href={`/baca?f=${p.slug}`}>Buka katalog</a>}
+              <a class={p.file ? "btn ghost sm" : "btn gold sm"} href={wa(`Halo dQueen Florist, saya mau pesan ${p.nama}.`)} target="_blank" rel="noopener">Pesan sekarang</a>
             </div>
           </div>
         </article>
@@ -352,13 +331,14 @@ h1,h2,h3,.brand{font-family:"Cormorant Garamond",Georgia,serif;font-weight:600;l
 .best-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:22px}
 .best{background:var(--card);border:1px solid var(--line);border-radius:14px;overflow:hidden;display:flex;flex-direction:column;transition:border-color .25s,transform .25s}
 .best:hover{border-color:var(--gold);transform:translateY(-3px)}
-.best-img{position:relative;display:block;aspect-ratio:4/3;overflow:hidden;background:#000}
+.best-img{position:relative;display:block;aspect-ratio:16/9;overflow:hidden;background:#000}
 .best-img img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .5s}
 .best:hover .best-img img{transform:scale(1.05)}
 .tag{position:absolute;top:12px;left:12px;background:var(--gold);color:#16120a;font-weight:600;font-size:.76rem;letter-spacing:.04em;padding:4px 12px;border-radius:999px}
 .best-body{padding:18px 20px 20px;display:flex;flex-direction:column;gap:6px;align-items:flex-start}
 .best-body h3{font-size:1.5rem}
-.best-price{color:var(--gold2);font-weight:500;margin-bottom:8px}
+.best-price{color:var(--gold2);font-weight:500}
+.best-meta{color:var(--mut);font-size:.85rem;margin-bottom:6px}
 
 .steps{list-style:none;display:grid;grid-template-columns:repeat(3,1fr);gap:28px;margin-top:36px}
 .steps li{border-top:2px solid var(--gold);padding-top:18px}

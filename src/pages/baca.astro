@@ -1,3 +1,9 @@
+---
+import { WA, katalog } from "../data/katalog";
+import { terlarisHarian } from "../data/terlaris";
+// Diubah jadi objek {slug: {nama, file, v}} untuk dipakai script di bawah
+const katalogMap = Object.fromEntries([...katalog, ...terlarisHarian].filter((k) => k.file).map((k) => [k.slug, { nama: k.nama, file: k.file, v: k.v }]));
+---
 <!doctype html>
 <html lang="id">
 <head>
@@ -123,17 +129,7 @@ body.lock{overflow:hidden}
 
   <a class="float" id="wa2" href="#" target="_blank" rel="noopener">Pesan lewat WhatsApp</a>
 
-  <script is:inline>
-var WA = "628161456508";
-var katalog = {
-  "pita-dekorasi": { nama: "Pita Dekorasi", file: "DQUEENFlorist - PITA DEKORASI 06 Oktober 2026.pdf" },
-  "bunga-box": { nama: "Bunga Box", file: "DQUEENFlorist-BUNGA BOX 051126.pdf" },
-  "pita-motor": { nama: "Pita Motor dan Mobil", file: "DQUEENFlorist-PITA MOTOR 02 Oktober 2026.pdf" },
-  "pita-peresmian": { nama: "Pita Peresmian", file: "DQUEENFlorist-PITA PERESMIAN update 23 Oktober 2026.pdf" },
-  "rupa-rupa": { nama: "Rupa-Rupa", file: "DQUEENFlorist-RUPA-RUPA 01 Oktober 2026.pdf" },
-  "standing-flowers": { nama: "Standing Flowers", file: "DQUEENFlorist-STANDING FLOWERS 26 Oktober 2026.pdf" },
-};
-
+  <script is:inline define:vars={{ WA, katalog: katalogMap }}>
 var slug = new URLSearchParams(location.search).get("f");
 var item = katalog[slug];
 var statusEl = document.getElementById("status");
@@ -155,7 +151,7 @@ if (!item) {
 async function start() {
   pdfjsLib.GlobalWorkerOptions.workerSrc = "https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js";
   try {
-    var task = pdfjsLib.getDocument({ url: "/katalog/" + encodeURIComponent(item.file) });
+    var task = pdfjsLib.getDocument({ url: "/katalog/" + encodeURIComponent(item.file) + "?v=" + item.v });
     task.onProgress = function (p) {
       if (p.total) statusEl.textContent = "Memuat katalog " + Math.round((p.loaded / p.total) * 100) + "%";
     };
