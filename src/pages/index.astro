@@ -2,6 +2,7 @@
 import { WA, WA2, katalog, totalHalBulat, jumlahKatalog } from "../data/katalog";
 import { grupBaru } from "../data/grup";
 import { terlarisHarian } from "../data/terlaris";
+import Rekanan from "../components/Rekanan.astro";
 
 // ====== PENGATURAN ======
 const ALAMAT = "Roxy, Jl. Biak, Jl. Petojo Selatan XII No.25, RT.5/RW.11, Cideng, Kecamatan Gambir, Kota Jakarta Pusat, DKI Jakarta 10150";
@@ -95,6 +96,7 @@ const faq = [
     <a href="#katalog">Katalog</a>
     <a href="#terlaris">Terlaris</a>
     <a href="#kenapa">Kenapa kami</a>
+    <a href="#rekanan">Rekanan</a>
     <a href="#pesan">Cara pesan</a>
     <a href="#faq">FAQ</a>
     <a href="#lokasi">Lokasi</a>
@@ -218,6 +220,8 @@ const faq = [
       </div>
     ))}
   </section>
+
+  <Rekanan />
 
   <section id="kenapa" class="sec dark2">
     <div class="why">
