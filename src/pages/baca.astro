@@ -1,8 +1,9 @@
 ---
 import { WA, katalog } from "../data/katalog";
+import { grupBaru } from "../data/grup";
 import { terlarisHarian } from "../data/terlaris";
 // Diubah jadi objek {slug: {nama, file, v}} untuk dipakai script di bawah
-const katalogMap = Object.fromEntries([...katalog, ...terlarisHarian].filter((k) => k.file).map((k) => [k.slug, { nama: k.nama, file: k.file, v: k.v }]));
+const katalogMap = Object.fromEntries([...katalog, ...terlarisHarian, ...grupBaru.flatMap((g) => g.items)].filter((k) => k.file).map((k) => [k.slug, { nama: k.nama, file: k.file, v: k.v }]));
 ---
 <!doctype html>
 <html lang="id">
