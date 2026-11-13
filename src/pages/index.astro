@@ -189,7 +189,7 @@ const faq = [
     {grupBaru.map((g) => (
       <div class="grup" id={g.id}>
         <h2 class="grup-judul">{g.judul}</h2>
-        <div class={g.kecil ? "grid kecil" : "grid"}>
+        <div class={g.kecil ? "grid kecil" : g.dua ? "grid dua" : "grid"}>
           {g.items.map((k) => {
             const buka = k.tautan ?? (k.file ? `/baca?f=${k.slug}` : "");
             return (
@@ -209,8 +209,8 @@ const faq = [
                   {k.harga && <p class="price"><span>Harga</span> {k.harga}</p>}
                   {(k.hal > 0 || k.upd) && <p class="meta">{k.hal > 0 ? `${k.hal} halaman, ` : ""}diperbarui {k.upd}</p>}
                   <div class="row">
-                    {buka && <a class="btn gold sm" href={buka}>{k.tautan ? "Lihat" : "Buka katalog"}</a>}
-                    <a class={buka ? "btn ghost sm" : "btn gold sm"} href={wa(`Halo dQueen Florist, saya mau tanya produk ${k.nama}.`)} target="_blank" rel="noopener">Tanya produk</a>
+                    {buka && <a class="btn gold sm" href={buka}>Buka katalog</a>}
+                    <a class={buka ? "btn ghost sm" : "btn gold sm"} href={wa(k.slug === "hari-raya" ? "Halo dQueen Florist, saya mau tanya produk Hari Raya (Idul Fitri / Natal / Imlek / Valentine)." : `Halo dQueen Florist, saya mau tanya produk ${k.nama}.`)} target="_blank" rel="noopener">Tanya produk</a>
                   </div>
                 </div>
               </article>
@@ -365,13 +365,14 @@ h1,h2,h3,.brand{font-family:"Cormorant Garamond",Georgia,serif;font-weight:600;l
 .body p{color:var(--mut);font-size:.96rem}
 .body .price{color:var(--ink);font-weight:500}
 .body .price span{color:var(--gold);font-weight:400;margin-right:6px}
-.body .meta{font-size:.85rem;flex:1}
-.row{display:flex;flex-wrap:wrap;gap:10px;margin-top:6px}
+.body .meta{font-size:.85rem}
+.row{display:flex;flex-wrap:wrap;gap:10px;margin-top:auto;padding-top:6px}
 
 .grup{margin-top:72px}
 .sec>.grup:first-child{margin-top:0}
 .grup-judul{font-size:clamp(1.7rem,3.6vw,2.4rem);margin-bottom:24px;color:var(--gold2)}
 .grid.kecil{grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:16px}
+.grid.dua{grid-template-columns:repeat(2,1fr)}
 .kecil .body{padding:16px}
 .kecil .body h3{font-size:1.3rem}
 
@@ -436,7 +437,7 @@ footer a{color:var(--gold2)}
   .best-price{font-size:.88rem}
   .tag{top:8px;left:8px;font-size:.7rem;padding:3px 10px}
   .grup{margin-top:56px}
-  .grid.kecil{grid-template-columns:repeat(2,1fr);gap:12px}
+  .grid.dua{grid-template-columns:repeat(2,1fr)}
 }
 @media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}*{transition:none!important}}
 </style>

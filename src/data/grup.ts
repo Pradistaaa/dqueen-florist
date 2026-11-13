@@ -17,7 +17,7 @@ export type Item = {
   tautan?: string; // kalau diisi, kartu menuju link ini (mis. "#hari-raya")
 };
 
-export type Grup = { id: string; judul: string; kecil?: boolean; items: Item[] };
+export type Grup = { id: string; judul: string; kecil?: boolean; dua?: boolean; items: Item[] };
 
 const UPD = "11 Nov 2026"; // tanggal update yang tampil di web
 const V = "20261111";      // versi cache PDF (ubah kalau PDF ditimpa)
@@ -44,7 +44,7 @@ export const grupBaru: Grup[] = [
     kecil: true,
     items: [
       pdf("paket-bundling", "Paket Bundling", { hal: 5 }),
-      baru("buket-duit-snack-box", "Buket Duit Snack Box"),
+      pdf("buket-duit-snack-box", "Buket Duit Snack Box", { hal: 20 }),
       pdf("bunga-vas", "Bunga Vas", { hal: 51 }),
       pdf("balon-mosaic", "Balon Mosaic", { hal: 52 }),
       pdf("new-born-gift", "New Born Gift", { hal: 80 }),
@@ -52,24 +52,13 @@ export const grupBaru: Grup[] = [
       pdf("hampers-buah", "Hampers Buah", { hal: 35 }),
       pdf("bunga-papan-mini", "Bunga Papan Mini", { hal: 33 }),
       pdf("bunga-papan-kertas", "Bunga Papan Kertas", { hal: 43 }),
-      baru("hari-raya", "Hari Raya", { tautan: "#hari-raya" }),
+      pdf("hari-raya", "Hari Raya", { hal: 54 }),
       pdf("bunga-papan-banner", "Bunga Papan Banner", { hal: 16 }),
       pdf("papan-backdrop", "Papan Backdrop", { hal: 34 }),
       pdf("balon-gate", "Balon Gate", { hal: 8 }),
-      baru("kusudama", "Kusudama"),
+      pdf("kusudama", "Kusudama", { hal: 15 }),
       pdf("bunga-wedding", "Bunga Wedding", { hal: 32 }),
       pdf("rupa-rupa", "Rupa-Rupa", { hal: 35 }),
-    ],
-  },
-  {
-    id: "hari-raya",
-    judul: "Hari Raya",
-    kecil: true,
-    items: [
-      baru("idul-fitri", "Idul Fitri"),
-      baru("natal", "Natal"),
-      baru("imlek", "Imlek"),
-      baru("valentine", "Valentine"),
     ],
   },
 ];
