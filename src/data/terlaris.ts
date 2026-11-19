@@ -10,7 +10,7 @@ export const terlarisHarian: Katalog[] = [
     desc: "", file: "paket-peresmian.pdf" },
   { slug: "standing-flowers", nama: "Standing Flowers", hal: 80, upd: "26 Okt 2026", v: "20261026", harga: "Mulai Rp499.000",
     desc: "", file: "standing-flowers.pdf" },
-  { slug: "simbolis", nama: "Simbolis", hal: 24, upd: "19 Nov 2026", v: "20261119", harga: "Mulai Rp100.000",
+  { slug: "simbolis", nama: "Simbolis", hal: 24, upd: "19 Nov 2026", v: "20261119b", harga: "Mulai Rp100.000",
     desc: "", file: "simbolis.pdf",
     batas: [{ setelah: 6, judul: "Model " }, 
             { setelah: 14, judul: "Model B" },]},
