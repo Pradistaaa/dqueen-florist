@@ -58,7 +58,7 @@ export const katalog: Katalog[] = [
             { setelah: 58, judul: "600rb"},
             { setelah: 61, judul: "750rb"},
             { setelah: 13, judul: "1jt",}]},
-  { slug: "pita-dekorasi", nama: "Pita Dekorasi", hal: 30, upd: "18 Nov 2026", v: "20261118", harga: "Mulai Rp45.000",
+  { slug: "pita-dekorasi", nama: "Pita Dekorasi", hal: 30, upd: "20 Nov 2026", v: "20261120", harga: "Mulai Rp45.000",
     desc: "Pita dan jambul besar dari spon dan satin untuk dekorasi mobil, panggung, dan hadiah besar.",
     file: "pita-dekorasi.pdf", 
     batas: [{ setelah: 13, judul: "Model " }, 
