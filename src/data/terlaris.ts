@@ -19,7 +19,7 @@ export const terlarisHarian: Katalog[] = [
     batas: [{ setelah: 24, judul: "Model " },]},
   { slug: "pita-kain-peresmian", nama: "Pita Kain Peresmian", hal: 18, upd: "20 Nov 2026", v: "20261120", harga: "Mulai Rp80.000",
     desc: "", file: "pita-kain-peresmian.pdf" },
-  { slug: "artificial", nama: "Artificial", hal: 67, upd: "9 Nov 2026", v: "20261109", harga: "Mulai Rp130.000",
+  { slug: "artificial", nama: "Artificial", hal: 69, upd: "20 Nov 2026", v: "20261120", harga: "Mulai Rp130.000",
     desc: "", file: "artificial.pdf" },
   { slug: "bunga-dukacita", nama: "Bunga Dukacita", hal: 123, upd: "2 Nov 2026", v: "20261102", harga: "Mulai Rp250.000",
     desc: "", file: "bunga-dukacita.pdf" },
