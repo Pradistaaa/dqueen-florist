@@ -26,7 +26,7 @@ export const katalog: Katalog[] = [
   { slug: "bunga-box", nama: "Bunga Box", hal: 77, upd: "5 Nov 2026", v: "20261105", harga: "Mulai Rp150.000",
     desc: "Rangkaian bunga segar dalam box, tinggi sekitar 40–50 cm. Warna bisa custom, gratis kartu ucapan.",
     file: "bunga-box.pdf" },
-  { slug: "pita-peresmian", nama: "Pita Peresmian", hal: 83, upd: "19 Nov 2026", v: "20261119", harga: "Mulai Rp60.000",
+  { slug: "pita-peresmian", nama: "Pita Peresmian", hal: 83, upd: "21 Nov 2026", v: "20261121", harga: "Mulai Rp60.000",
     desc: "Pompom dan jambul untuk gunting pita peresmian, lengkap dengan pita hias, gunting, dan tali satin. Diameter dan warna bisa custom.",
     file: "pita-peresmian.pdf",
     batas: [{ setelah: 14, judul: "Model B" }, 
