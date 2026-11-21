@@ -6,7 +6,7 @@
 import type { Katalog } from "./katalog";
 
 export const terlarisHarian: Katalog[] = [
-  { slug: "paket-peresmian", nama: "Paket Peresmian", hal: 37, upd: "9 Nov 2026", v: "20261109", harga: "Mulai Rp350.000",
+  { slug: "paket-peresmian", nama: "Paket Peresmian", hal: 38, upd: "21 Nov 2026", v: "20261121", harga: "Mulai Rp350.000",
     desc: "", file: "paket-peresmian.pdf" },
   { slug: "standing-flowers", nama: "Standing Flowers", hal: 80, upd: "26 Okt 2026", v: "20261026", harga: "Mulai Rp499.000",
     desc: "", file: "standing-flowers.pdf" },
