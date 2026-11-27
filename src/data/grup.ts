@@ -50,7 +50,7 @@ export const grupBaru: Grup[] = [
       pdf("new-born-gift", "New Born Gift", { hal: 80 }),
       pdf("rangkaian-anggrek", "Rangkaian Anggrek", { hal: 15 }),
       pdf("hampers-buah", "Hampers Buah", { hal: 35 }),
-      pdf("bunga-papan-mini", "Bunga Papan Mini", { hal: 33 }),
+      pdf("bunga-papan-mini", "Bunga Papan Mini", { hal: 16, upd: "27 Nov 2026", v: "20261127" }),
       pdf("bunga-papan-kertas", "Bunga Papan Kertas", { hal: 43 }),
       pdf("hari-raya", "Hari Raya", { hal: 54 }),
       pdf("bunga-papan-banner", "Bunga Papan Banner", { hal: 16 }),
