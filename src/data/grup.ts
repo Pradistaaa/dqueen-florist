@@ -33,7 +33,7 @@ export const grupBaru: Grup[] = [
     id: "pilihan",
     judul: "Produk Pilihan Kami",
     items: [
-      pdf("papan-balon", "Papan Balon", { hal: 39, upd: "27 Nov 2026", v: "20261127" }),
+      pdf("papan-balon", "Papan Balon", { hal: 24, upd: "28 Nov 2026", v: "20261128" }),
       pdf("graduation", "Graduation", { hal: 25 }),
       pdf("bunga-papan-unik", "Bunga Papan Unik", { hal: 15, upd: "27 Nov 2026", v: "20261127" }),
     ],
