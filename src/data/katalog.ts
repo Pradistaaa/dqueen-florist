@@ -23,46 +23,58 @@ export type Katalog = {
 };
 
 export const katalog: Katalog[] = [
-  { slug: "bunga-box", nama: "Bunga Box", hal: 77, upd: "5 Nov 2026", v: "20261105", harga: "Mulai Rp150.000",
+  {
+    slug: "bunga-box", nama: "Bunga Box", hal: 77, upd: "5 Nov 2026", v: "20261105", harga: "Mulai Rp150.000",
     desc: "Rangkaian bunga segar dalam box, tinggi sekitar 40–50 cm. Warna bisa custom, gratis kartu ucapan.",
-    file: "bunga-box.pdf" },
-  { slug: "pita-peresmian", nama: "Pita Peresmian", hal: 83, upd: "21 Nov 2026", v: "20261121", harga: "Mulai Rp60.000",
+    file: "bunga-box.pdf"
+  },
+  {
+    slug: "pita-peresmian", nama: "Pita Peresmian", hal: 83, upd: "21 Nov 2026", v: "20261121", harga: "Mulai Rp60.000",
     desc: "Pompom dan jambul untuk gunting pita peresmian, lengkap dengan pita hias, gunting, dan tali satin. Diameter dan warna bisa custom.",
     file: "pita-peresmian.pdf",
-    batas: [{ setelah: 14, judul: "Model B" }, 
-            { setelah: 24, judul: "Model B" },
-            { setelah: 35, judul: "Model B" },
-            { setelah: 51, judul: "Model B" },
-            { setelah: 54, judul: "Model B" },
-            { setelah: 67, judul: "Model B" },
-            { setelah: 70, judul: "Model B" },
-            { setelah: 75, judul: "Model B" },] },
-  { slug: "bunga-papan-akrilik", nama: "Bunga Papan Akrilik", hal: 53, upd: "11 Nov 2026", v: "20261111", harga: "Mulai Rp550.000",
+    batas: [{ setelah: 14, judul: "Model B" },
+    { setelah: 24, judul: "Model B" },
+    { setelah: 35, judul: "Model B" },
+    { setelah: 51, judul: "Model B" },
+    { setelah: 54, judul: "Model B" },
+    { setelah: 67, judul: "Model B" },
+    { setelah: 70, judul: "Model B" },
+    { setelah: 75, judul: "Model B" },]
+  },
+  {
+    slug: "bunga-papan-akrilik", nama: "Bunga Papan Akrilik", hal: 53, upd: "11 Nov 2026", v: "20261111", harga: "Mulai Rp550.000",
     desc: "Papan bunga akrilik dan PVC dengan bunga artificial dan kaki kayu natural, tinggi total sekitar 1,3 m. Bunga bisa custom.",
-    file: "bunga-papan-akrilik.pdf" },
-  { slug: "bunga-papan-biasa", nama: "Bunga Papan Biasa", hal: 33, upd: "5 Okt 2026", v: "20261005", harga: "Mulai Rp500.000",
+    file: "bunga-papan-akrilik.pdf"
+  },
+  {
+    slug: "bunga-papan-biasa", nama: "Bunga Papan Biasa", hal: 33, upd: "5 Okt 2026", v: "20261005", harga: "Mulai Rp500.000",
     desc: "Papan bunga ucapan ukuran besar, mulai 200 x 130 cm, untuk selamat, ulang tahun, dan duka cita.",
-    file: "bunga-papan-biasa.pdf" },
-  { slug: "buket-bunga", nama: "Buket Bunga", hal: 66, upd: "18 Nov 2026", v: "20261118", harga: "Mulai Rp100.000",
+    file: "bunga-papan-biasa.pdf"
+  },
+  {
+    slug: "buket-bunga", nama: "Buket Bunga", hal: 66, upd: "18 Nov 2026", v: "20261118", harga: "Mulai Rp100.000",
     desc: "Buket bunga segar, dari mawar sampai hortensia, cocok untuk anniversary dan ulang tahun. Gratis kartu ucapan.",
     file: "buket-bunga.pdf",
-    batas: [{ setelah: 6, judul: "100rb" }, 
-            { setelah: 9, judul: "150rb" },
-            { setelah: 11, judul: "199rb"},
-            { setelah: 19, judul: "250rb"},
-            { setelah: 26, judul: "350rb"},
-            { setelah: 32, judul: "450rb"},
-            { setelah: 35, judul: "550rb"},
-            { setelah: 45, judul: "500rb"},
-            { setelah: 52, judul: "599rb"},
-            { setelah: 58, judul: "600rb"},
-            { setelah: 61, judul: "750rb"},
-            { setelah: 13, judul: "1jt",}]},
-  { slug: "pita-dekorasi", nama: "Pita Dekorasi", hal: 30, upd: "20 Nov 2026", v: "20261120", harga: "Mulai Rp45.000",
+    batas: [{ setelah: 6, judul: "100rb" },
+    { setelah: 9, judul: "150rb" },
+    { setelah: 11, judul: "199rb" },
+    { setelah: 19, judul: "250rb" },
+    { setelah: 26, judul: "350rb" },
+    { setelah: 32, judul: "450rb" },
+    { setelah: 35, judul: "550rb" },
+    { setelah: 45, judul: "500rb" },
+    { setelah: 52, judul: "599rb" },
+    { setelah: 58, judul: "600rb" },
+    { setelah: 61, judul: "750rb" },
+    { setelah: 13, judul: "1jt", }]
+  },
+  {
+    slug: "pita-dekorasi", nama: "Pita Dekorasi", hal: 30, upd: "20 Nov 2026", v: "20261120", harga: "Mulai Rp45.000",
     desc: "Pita dan jambul besar dari spon dan satin untuk dekorasi mobil, panggung, dan hadiah besar.",
-    file: "pita-dekorasi.pdf", 
-    batas: [{ setelah: 13, judul: "Model " }, 
-            { setelah: 23, judul: "Model B" },]},
+    file: "pita-dekorasi.pdf",
+    batas: [{ setelah: 13, judul: "Model " },
+    { setelah: 23, judul: "Model B" },]
+  },
 ];
 
 // Yang tampil di beranda (katalog dengan tampil: false tidak ikut)
