@@ -47,7 +47,7 @@ export const grupBaru: Grup[] = [
       pdf("buket-duit-snack-box", "Buket Duit Snack Box", { hal: 20 }),
       pdf("bunga-vas", "Bunga Vas", { hal: 51 }),
       pdf("balon-mosaic", "Balon Mosaic", { hal: 15, upd: "28 Nov 2026", v: "20261128" }),
-      pdf("new-born-gift", "New Born Gift", { hal: 80 }),
+      pdf("new-born-gift", "New Born Gift", { hal: 30, upd: "28 Nov 2026", v: "20261128" }),
       pdf("rangkaian-anggrek", "Rangkaian Anggrek", { hal: 15 }),
       pdf("hampers-buah", "Hampers Buah", { hal: 35 }),
       pdf("bunga-papan-mini", "Bunga Papan Mini", { hal: 16, upd: "27 Nov 2026", v: "20261127" }),
